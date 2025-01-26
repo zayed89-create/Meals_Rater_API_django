@@ -18,21 +18,21 @@ from rest_framework.authtoken.models import Token
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    #authentication_classes = (TokenAuthentication, )
+    authentication_classes = (TokenAuthentication, )
     permission_classes = (AllowAny,)
     
-    #def create(self, request, *args, **kwargs):
-     #   serializer = self.get_serializer(data=request.data)
-     #   serializer.is_valid(raise_exception=True)
-      # token, created = Token.objects.get_or_create(user=serializer.instance)
-       # return Response({
-        #        'token': token.key, 
-         #       }, 
-          #  status=status.HTTP_201_CREATED)
+    def create(self, request, *args, **kwargs):
+       serializer = self.get_serializer(data=request.data)
+       serializer.is_valid(raise_exception=True)
+       token, created = Token.objects.get_or_create(user=serializer.instance)
+       return Response({
+                'token': token.key, 
+                }, 
+            status=status.HTTP_201_CREATED)
     
-    #def list(self, request, *args, **kwargs):
-     #   response = {'message': 'You cant create rating like that'}
-      #  return Response(response, status=status.HTTP_400_BAD_REQUEST)
+    def list(self, request, *args, **kwargs):
+        response = {'message': 'You cant create rating like that'}
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MealViewSet(viewsets.ModelViewSet):
